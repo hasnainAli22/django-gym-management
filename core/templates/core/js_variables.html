@@ -1,0 +1,6 @@
+<script>
+    var cart_add_url = "{% url 'cart:cart-add' %}"
+    var csrf_token = "{{ csrf_token|escapejs }}"
+    var cart_delete_url = "{% url 'cart:cart-delete' %}"
+    var cart_update_url = "{% url 'cart:cart-update' %}"
+</script>

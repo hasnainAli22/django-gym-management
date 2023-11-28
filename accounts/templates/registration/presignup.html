@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% block title %}
+    Signup to the Site
+{% endblock  %}
+{% block content %}
+<div class="row my-3">
+    <div class="col-md-4">
+        <a href="{% url 'accounts:register_member'%}" class='text-decoration-none'>
+            <div class="card text-center h-100">
+                <div class="card-block">
+                    <h4 class="card-title">Signup as Member</h4>
+                    <h2><i class="fa fa-user signup-icon fa-2x"></i></h2>
+                </div>
+                <div class="row px-2 no-gutters">
+                    <div class="col-12">
+                        <p class="card card-block border-0">Become a member and get access to our exclusive content and benefits.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'accounts:register_trainer'%}" class='text-decoration-none'>
+            <div class="card text-center h-100">
+                <div class="card-block">
+                    <h4 class="card-title">Signup as Trainer</h4>
+                    <h2><i class="fa fa-chalkboard-teacher signup-icon fa-2x"></i></h2>
+                </div>
+                <div class="row px-2 no-gutters">
+                    <div class="col-12">
+                        <p class="card card-block border-0">Share your knowledge and expertise with others by becoming a trainer.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'accounts:register_admin'%}" class='text-decoration-none'>
+            <div class="card text-center h-100">
+                <div class="card-block">
+                    <h4 class="card-title">Signup as Admin</h4>
+                    <h2><i class="fa fa-cog signup-icon fa-2x"></i></h2>
+                </div>
+                <div class="row px-2 no-gutters">
+                    <div class="col-12">
+                        <p class="card card-block border-0">Manage the platform and all users by becoming an admin.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{%endblock%}

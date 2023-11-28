@@ -1,0 +1,96 @@
+class ProfileUpdateMixin:
+    fields = ['name', 'contact_number', 'preferences', 'gender', 'address', 'profile_picture']
+    # template_name = 'users/profile.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def form_valid(self, form):
+        # Update the user profile with the form data
+        print("Form Data:", form.cleaned_data)
+        user_profile = self.get_object()
+        user_profile.name = form.cleaned_data['name']
+        user_profile.contact_number = form.cleaned_data['contact_number']
+        user_profile.preferences = form.cleaned_data['preferences']
+        user_profile.gender = form.cleaned_data['gender']
+        user_profile.address = form.cleaned_data['address']
+        
+        # Check if a new profile picture is provided
+        profile_picture = form.cleaned_data.get('profile_picture')
+        if profile_picture:
+            user_profile.profile_picture = profile_picture
+        # Debugging: Print form data
+
+        user_profile.save()
+
+        # Add a success message
+        messages.success(self.request, 'Profile updated successfully.')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # Add an error message if needed
+        messages.error(self.request, 'Profile update failed. Please check the form.')
+        return super().form_invalid(form)
+
+    def get_success_url(self):
+        # Dynamically construct the success URL based on user's role
+        user_role = self.request.user.userprofile.user_role.name
+
+        if user_role == 'MEMBER':
+            return reverse('accounts:member_profile')
+        elif user_role == 'TRAINER':
+            return reverse('accounts:trainer_profile')
+        elif user_role == 'ADMIN':
+            return reverse('accounts:admin_profile')
+
+        # Default redirect if the user role is not recognized
+        return reverse('home')
+
+    def has_permission(self):
+        return self.request.user.is_authenticated
+
+class MemberProfileView(
+    # ProfileUpdateMixin, 
+    UpdateView
+    ):
+    pass
+    model = UserProfile
+    template_name = 'users/member_profile.html'
+    
+    def get_object(self):
+        # Attempt to get the UserProfile instance for the current user
+        user_profile, created = UserProfile.objects.get_or_create(user=self.request.user) #modify
+        return user_profile
+
+    def has_permission(self):
+        return super().has_permission() and self.request.user.user_role.name == 'MEMBER'
+
+class TrainerProfileView(
+    # ProfileUpdateMixin,
+    UpdateView
+    ):
+    pass
+    model = UserProfile
+    template_name = 'users/trainer_profile.html'
+
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+
+    def has_permission(self):
+        return super().has_permission() and self.request.user.user_role.name == 'TRAINER'
+
+class AdminProfileView(
+    # ProfileUpdateMixin,
+    UpdateView
+    ):
+    pass
+    model = UserProfile
+    template_name = 'users/admin_profile.html'
+
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+
+    def has_permission(self):
+        return super().has_permission() and self.request.user.user_role.name == 'ADMIN'
+    

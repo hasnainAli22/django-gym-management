@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+{% block title %}Logout{% endblock  %}
+{% block content %}
+<h1 class="mt-4">Login to your account</h1>
+    <div class="alert alert-success" role="alert">
+        Logged Out Successfully!
+    </div>
+    Click Here to Login <a class="link-primary" href="{% url 'accounts:login' %}">Login!</a>
+
+    <script>
+    </script>
+{% endblock  %}

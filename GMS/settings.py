@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Loacal Apps
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Setting our custom user as default user model
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# Setting up the SMTP( Simple Mail Transfer Protocol)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'our.hasnain22@gmail.com'
+EMAIL_HOST_PASSWORD = 'ogzg yhvw evoc tbjp'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

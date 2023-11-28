@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% block title %}
+    Signup to the Site
+{% endblock  %}
+{% block content %}
+    <div>
+        <h1 class="mt-4">Signup as a {{role | title}}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-primary me-2">Signup</button>
+                <a href="{%url 'accounts:login' %}"> Already have account? Login</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

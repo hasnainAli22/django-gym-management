@@ -42,14 +42,29 @@ class UserCreationForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","placeholder":"Username"}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","placeholder":"Password"}))
-    # Override error_css_class to include Bootstrap's 'is-invalid' class
     class Meta:
         model = User
         fields = ["username","password"]
         
 
 class CustomPasswordChangeForm(PasswordChangeForm):
-    pass
+    old_password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'current-password', 'autofocus': True, 'class': 'form-control',
+                   'placeholder': 'Old Password'}),
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': 'New Password'}),
+        strip=False,
+        # help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': 'Confirm password'}),
+    )
 
 
 class CustomPasswordResetForm(PasswordResetForm):

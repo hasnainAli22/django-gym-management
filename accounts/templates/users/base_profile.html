@@ -1,76 +1,169 @@
 <!-- templates/users/base_profile.html -->
 {% extends 'core/base.html' %}
 {% block title %}
-    Profile
+Profile
 {% endblock %}
-
+{% comment %}
 {% block content %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-8 mx-auto">
-                {% if not user.userprofile.is_approved %}
-                    <div class="alert alert-warning" role="alert">
-                        Your profile is not yet approved. You may not have access to all features.
-                    </div>
-                {% endif %}
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Edit Profile</h2>
-                        <a href="{% url 'accounts:password_change' %}" class="btn btn-link float-end">Change Password</a>
-                    </div>
-                    <div class="card-body">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            {% if not user.userprofile.is_approved %}
+            <div class="alert alert-warning" role="alert">
+                Your profile is not yet approved. You may not have access to all features.
+            </div>
+            {% endif %}
 
-                            <!-- Name Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
-                                {{ form.name }}
-                                {{ form.name.errors }}
-                            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Edit Profile</h2>
+                    <a href="{% url 'accounts:password_change' %}" class="btn btn-link float-end">Change Password</a>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                            <!-- Contact Number Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.contact_number.id_for_label }}" class="form-label">Contact Number</label>
-                                {{ form.contact_number }}
-                                {{ form.contact_number.errors }}
-                            </div>
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
 
-                            <!-- Preferences Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.preferences.id_for_label }}" class="form-label">Preferences</label>
-                                {{ form.preferences }}
-                                {{ form.preferences.errors }}
-                            </div>
+                        <!-- Contact Number Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.contact_number.id_for_label }}" class="form-label">Contact
+                                Number</label>
+                            {{ form.contact_number }}
+                            {{ form.contact_number.errors }}
+                        </div>
 
-                            <!-- Gender Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
-                                {{ form.gender }}
-                                {{ form.gender.errors }}
-                            </div>
+                        <!-- Preferences Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.preferences.id_for_label }}" class="form-label">Preferences</label>
+                            {{ form.preferences }}
+                            {{ form.preferences.errors }}
+                        </div>
 
-                            <!-- Address Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
-                                {{ form.address }}
-                                {{ form.address.errors }}
-                            </div>
+                        <!-- Gender Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                            {{ form.gender }}
+                            {{ form.gender.errors }}
+                        </div>
 
-                            <!-- Profile Picture Field -->
-                            <div class="mb-3">
-                                <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
-                                {{ form.profile_picture }}
-                                {{ form.profile_picture.errors }}
-                            </div>
+                        <!-- Address Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                            {{ form.address }}
+                            {{ form.address.errors }}
+                        </div>
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </form>
-                    </div>
+                        <!-- Profile Picture Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile
+                                Picture</label>
+                            {{ form.profile_picture }}
+                            {{ form.profile_picture.errors }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+</div>
+{% endblock %} {% endcomment %}
+{% block content %}
+
+
+<section class=" my-5">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8 col-xl-6 offset-xl-1">
+                <h2 class='mb-3'>Edit the profile</h2>
+                {% comment %} <div class="d-flex">
+                    <div class="">
+                        <img src="{% if user.userprofile.profile_picture and user.userprofile.profile_picture.url %}{{ user.userprofile.profile_picture.url }}{% else %}https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg{% endif %}"
+    width="40" height="40" class="rounded-circle">
+                    </div>
+                    <p>{{user.username}}</p>
+                </div> {% endcomment %}
+                {% if not user.userprofile.is_approved %}
+                <div class="alert alert-warning" role="alert">
+                    Your profile is not yet approved. You may not have access to all features.
+                </div>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- Name Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+
+                    <!-- Contact Number Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.contact_number.id_for_label }}" class="form-label">Contact
+                            Number</label>
+                        {{ form.contact_number }}
+                        {{ form.contact_number.errors }}
+                    </div>
+
+                    <!-- Preferences Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.preferences.id_for_label }}" class="form-label">Preferences</label>
+                        {{ form.preferences }}
+                        {{ form.preferences.errors }}
+                    </div>
+
+                    <!-- Gender Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                        {{ form.gender }}
+                        {{ form.gender.errors }}
+                    </div>
+
+                    <!-- Address Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                        {{ form.address }}
+                        {{ form.address.errors }}
+                    </div>
+
+                    <!-- Profile Picture Field -->
+                    <div class="mb-3">
+                        <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile
+                            Picture</label>
+                        {{ form.profile_picture }}
+                        {{ form.profile_picture.errors }}
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-bold d-flex justify-content-center align-items-center">
+                                <strong>
+                                    Change the Password:
+                                </strong>
+                            </div>
+                            <a class='btn btn-outline-danger' href="{% url 'accounts:password_change' %}">
+                                Change Password
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="text-lg-start mt-4 pt-2">
+                        <button class="btn btn-primary btn-md rounded"
+                            type="submit">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

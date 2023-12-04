@@ -9,7 +9,7 @@ from django.contrib.auth import views as authviews
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from django import forms
 # Local imports
 User = get_user_model() # get the user model dynamically
 from .forms import UserCreationForm, LoginForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomSetPasswordForm
@@ -72,6 +72,9 @@ class RegisterAdminView(View):
 class LoginView(authviews.LoginView):
     form_class = LoginForm
     template_name = 'registration/login.html'
+    def form_invalid(self, form):
+        messages.error(self.request, 'Invalid username or password')
+        return super().form_invalid(form)
     
     def get_success_url(self):
         # Redirect users to their specific profile based on their roles
@@ -86,6 +89,15 @@ class LoginView(authviews.LoginView):
 
         # Default redirect if the user role is not recognized
         return reverse_lazy('home')
+    
+    def get_form(self):
+        form=super().get_form()
+        form.fields['username'].widget=forms.TextInput(attrs={'class':'form-control form-control-lg','id':'form3Example3','placeholder':'Enter a valid email address'})
+        form.fields['password'].widget=forms.PasswordInput({'class':'form-control form-control-lg','id':'form3Example4','placeholder':'Enter password'})
+
+        return form
+    
+    
     
 
 class LogoutView(authviews.LogoutView):
@@ -107,6 +119,28 @@ class ProfileUpdatePage(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('home')
+    
+    def get_form(self):
+        form=super().get_form()
+        form.fields['name'].widget=forms.TextInput(attrs={'class':'form-control'})
+        form.fields['contact_number'].widget=forms.TextInput(attrs={'class':'form-control'})
+        form.fields['preferences'].widget=forms.Textarea(attrs={'class':'form-control'})
+        GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+        )
+        form.fields['gender'] = forms.ChoiceField(
+            choices=GENDER_CHOICES,
+            label='Gender',
+            widget=forms.Select(attrs={'class': 'form-control'})
+        )
+        form.fields['address'].widget = forms.TextInput(attrs={'class':'form-control','placeholder':'Put your Address'})
+        form.fields['profile_picture'].widget.attrs.update({
+        'class': 'form-control-file form-control',
+        'type': 'file'
+        })
+        return form
     
 
 class TestView(View):
